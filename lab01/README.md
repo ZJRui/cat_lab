@@ -73,6 +73,10 @@ CAT客户端配置文件client.xml
 	</servers>
 </config>
 ```
+注意在client.xml文件中还可以配置一个domain标签，client.xml文件中的domain 表示命名空间，每一个Cat客户端都有一个client.xml配置文件，cat客户端读取client.xml文件中的server 得到catServer地址，同时使用domain作为自己的命名空间，一般client的domain都使用application.name作为domain.客户端发送个cat服务器的消息中会带上domain属性，区分消息。
+比如<domain id="mobile-zuul-gateway" enable="true", max-message-size="1000">
+	
+------------------------------
 
 CAT服务器数据源配置文件datasources.xml
 
@@ -132,6 +136,7 @@ CAT服务器配置文件server.xml
 		
 </config>
 ```
+cat服务器本身也使用了cat进行日志输出，所以cat服务器本身也是一个cat客户端，cat服务器作为客户端的时候使用的domain是cat，也就是使用cat标记日志为cat服务器产生的日志， 上面的console标签配置了一个cat控制台，控制台默认展示的domain是cat命名空间下日志的信息。
 
 **注意： server.xml配置文件的内容 有几种形式，在官方文档中给出的示例 可以参考这个链接 https://github.com/dianping/cat/blob/801f0b7b35/cat-core/src/test/resources/com/dianping/cat/server/server.xml  ，上面的这个server.xml配置文件可能会导致 cat.war包部署在tomcat容器中启动tomcat容器时在cat服务器日志（路径为 H:\data\applogs\cat）中出现如下错误**
 
