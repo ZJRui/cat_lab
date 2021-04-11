@@ -17,6 +17,9 @@ https://github.com/unidal/cat2/blob/master/script/Dianping%20CAT%20%E5%AE%89%E8%
 
 https://github.com/unidal/cat2/blob/master/script/client.xml
 
+官方部署文档：https://github.com/dianping/cat/blob/801f0b7b358814f8176dd2c47e25a85a9c83e6bc/integration/springMVC-AOP/CAT%E9%83%A8%E7%BD%B2.txt
+
+
 #### 1. 下载CAT源码
 
 ```
