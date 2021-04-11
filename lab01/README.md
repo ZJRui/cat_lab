@@ -13,6 +13,8 @@ CAT 3.0的两个注意点：
 ### 实验步骤
 
 参考文档：https://blog.csdn.net/lqzkcx3/article/details/80626701
+https://github.com/unidal/cat2/blob/master/script/Dianping%20CAT%20%E5%AE%89%E8%A3%85%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md
+https://github.com/unidal/cat2/blob/master/script/client.xml
 
 #### 1. 下载CAT源码
 
