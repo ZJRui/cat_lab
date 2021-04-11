@@ -10,7 +10,7 @@ CAT 3.0的两个注意点：
 * Java应用配置方式和2.0不同，参考[java客户端使用](https://github.com/dianping/cat/tree/master/lib/java)的Initialization部分。
 
 ### 实验步骤
-
+参考文档：https://blog.csdn.net/lqzkcx3/article/details/80626701
 #### 1. 下载CAT源码
 
 ```
@@ -22,7 +22,7 @@ git clone https://github.com/dianping/cat.git
 ```
 mvn clean install -DskipTests
 ```
-
+如果构建过程中出现错误，可以直接在网上下载cat-home.war ，构建的目的就是为了得到war包部署到tomcat中
 将`{CAT_SRC}/cat-home/target/cat-alpha-2.0.0.war`重命名为`cat.war`
 
 #### 3. 创建数据库
@@ -45,10 +45,14 @@ mvn clean install -DskipTests
 CAT客户端配置文件client.xml
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-
+<!--Cat 服务器本身也使用了Cat埋点，因此Cat服务器cat.war在Tomcat部署启动的过程中也会查找client.xml文件，然后通过client.xml文件中的server主动连接cat服务器-->
+<!--IDea中的项目作为Cat客户端，在启动的时候也会查找client.xml文件寻找Cat服务器-->
 <config mode="client" xmlns:xsi="http://www.w3.org/2001/XMLSchema" xsi:noNamespaceSchemaLocation="config.xsd">
 	<servers>
 		<!-- Local mode for development -->
+		<!--port指定cat客户端和cat服务器传输日志的端口，http-port指定cat服务器提供web界面查看日志的端口-->
+		  <!-- port : 配置服务端（cat-home）对外TCP协议开启端口，固定值为2280; -->
+          <!-- http-port : 配置服务端（cat-home）对外HTTP协议开启端口, 如：tomcat默认是8080端口，若未指定，默认为8080端口; -->
 		<server ip="192.168.7.70" port="2280" http-port="8080" />
 		<!-- If under production environment, put actual server address as list. -->
 		<!-- 
@@ -105,8 +109,12 @@ CAT服务器配置文件server.xml
 	<storage  local-base-dir="/data/appdatas/cat/bucket/" max-hdfs-storage-time="15" local-report-storage-time="7" local-logivew-storage-time="7">
 	
 	</storage>
-	
+	 <!--
+        console : 定义服务控制台信息
+        remote-servers : 定义HTTP服务列表，（远程监听端同步更新服务端信息即取此值）    
+    -->
 	<console default-domain="Cat" show-cat-domain="true">
+		<!--注意上面的default-domain 为cat，也可以是其他名字,因为我们部署到tomcat中的cat是cat.war，因此最终访问的时候是http://localhost:port/Cat  上面的default-domain就是Catserver的contextPath-->
 		<remote-servers>127.0.0.1:8080</remote-servers>		
 	</console>
 		
