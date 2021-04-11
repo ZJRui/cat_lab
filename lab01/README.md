@@ -6,11 +6,14 @@
 本实验文档仅供学习参考！大众点评[CAT](https://github.com/dianping/cat)近期(2018下半年)更新比较频繁，已经升级到3.0，增加了不少新特性，建议大家后续跟进采用CAT新版本，生产级服务器部署请直接建议参考其[官方文档](https://github.com/dianping/cat)。
 
 CAT 3.0的两个注意点：
+
 * mysql请用6.x或7.x版本，暂不要用8.x版本，会有兼容性问题。
 * Java应用配置方式和2.0不同，参考[java客户端使用](https://github.com/dianping/cat/tree/master/lib/java)的Initialization部分。
 
 ### 实验步骤
+
 参考文档：https://blog.csdn.net/lqzkcx3/article/details/80626701
+
 #### 1. 下载CAT源码
 
 ```
@@ -22,6 +25,7 @@ git clone https://github.com/dianping/cat.git
 ```
 mvn clean install -DskipTests
 ```
+
 如果构建过程中出现错误，可以直接在网上下载cat-home.war ，构建的目的就是为了得到war包部署到tomcat中
 将`{CAT_SRC}/cat-home/target/cat-alpha-2.0.0.war`重命名为`cat.war`
 
@@ -43,6 +47,7 @@ mvn clean install -DskipTests
 本地配置案例如下：
 
 CAT客户端配置文件client.xml
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <!--Cat 服务器本身也使用了Cat埋点，因此Cat服务器cat.war在Tomcat部署启动的过程中也会查找client.xml文件，然后通过client.xml文件中的server主动连接cat服务器-->
@@ -64,6 +69,7 @@ CAT客户端配置文件client.xml
 ```
 
 CAT服务器数据源配置文件datasources.xml
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 
@@ -121,6 +127,25 @@ CAT服务器配置文件server.xml
 </config>
 ```
 
+**注意： server.xml配置文件的内容 有几种形式，在官方文档中给出的示例 可以参考这个链接 https://github.com/dianping/cat/blob/801f0b7b35/cat-core/src/test/resources/com/dianping/cat/server/server.xml  ，上面的这个server.xml配置文件可能会导致 cat.war包部署在tomcat容器中启动tomcat容器时在cat服务器日志（路径为 H:\data\applogs\cat）中出现如下错误**
+
+```
+[04-11 16:50:10.702] [INFO] [ServerConfigManager] Loading configuration file(H:\data\appdatas\cat\server.xml) ...
+[04-11 16:50:10.725] [ERROR] [ServerConfigManager] Unknown root element(config) found! 提示无法解析处理server.xml文件中的config标签，导致catserver使用了默认自己的server.xml
+[04-11 16:50:10.763] [INFO] [ServerConfigManager] CAT server is running with hdfs,false
+[04-11 16:50:10.763] [INFO] [ServerConfigManager] CAT server is running with alert,false
+[04-11 16:50:10.763] [INFO] [ServerConfigManager] CAT server is running with job,false
+[04-11 16:50:10.764] [INFO] [ServerConfigManager] <?xml version="1.0" encoding="utf-8"?>
+<server id="192.168.3.4">
+   <storage local-base-dir="target/bucket" max-hdfs-storage-time="15" local-report-storage-time="3" local-logivew-storage-time="7" har-mode="true" upload-thread="5">
+   </storage>
+   <consumer>
+      <long-config default-url-threshold="1000" default-sql-threshold="100" default-service-threshold="50">
+      </long-config>
+   </consumer>
+</server>
+```
+
 #### 5. 部署war包
 
 1. 将`cat.war`部署到tomcat的webapps目录下，启动tomcat
@@ -128,6 +153,7 @@ CAT服务器配置文件server.xml
 3. 配置全局路由，右上角`配置`，使用`catadmin/admin`登录，左边导航`全局告警配置->客户端路由`
 
 本地路由配置案例
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <router-config backup-server="192.168.7.70" backup-server-port="2280">
@@ -140,10 +166,10 @@ CAT服务器配置文件server.xml
 通过导航`State`查看CAT状态，正常时显示`CAT服务端正常`字样，且CAT服务器会对自身进行监控，可通过导航`Transaction`查看。
 
 如果服务器启动有问题，则可以通过查看日志解决：
+
 1. `{CAT_HOME_DISK}:\data\applogs\cat`下面的CAT服务器日志
 2. `{TOMCAT_HOME}\logs`下面的tomcat日志
 
 ### 部署参考
 
 [CAT@github](https://github.com/dianping/cat)
-
