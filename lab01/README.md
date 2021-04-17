@@ -161,7 +161,7 @@ cat服务器本身也使用了cat进行日志输出，所以cat服务器本身�
 
 1. 将`cat.war`部署到tomcat的webapps目录下，启动tomcat
 2. 打开cat控制台http://localhost:8080/cat
-3. 配置全局路由，右上角`配置`，使用`catadmin/admin`登录，左边导航`全局告警配置->客户端路由`
+3. 配置全局路由，右上角`配置`，使用`catadmin/admin` 或者admin/admin登录，左边导航`全局告警配置->客户端路由`
 
 本地路由配置案例
 
